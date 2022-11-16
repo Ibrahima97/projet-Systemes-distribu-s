@@ -1,0 +1,104 @@
+#+OPTIONS: ':nil *:t -:t ::t <:t H:3 \n:nil ^:t arch:headline
+#+OPTIONS: author:t broken-links:nil c:nil creator:nil
+#+OPTIONS: d:(not "LOGBOOK") date:t e:t email:nil f:t inline:t num:t
+#+OPTIONS: p:nil pri:nil prop:nil stat:t tags:t tasks:t tex:t
+#+OPTIONS: timestamp:t title:t toc:t todo:t |:t
+#+TITLE: CAHIER_DE_LABORATOIRE
+#+DATE: <2018-10-09 mar.>
+#+AUTHOR: VOTRE ÉQUIPE
+#+EMAIL: 
+#+LANGUAGE: fr
+#+SELECT_TAGS: export
+#+EXCLUDE_TAGS: noexport
+#+CREATOR: Emacs 25.2.2 (Org mode 9.1.14)
+
+* Gestion du code
+** URL du gitlab de l'équipe
+https://gitlab.ensimag.fr/taixv/sysd.git
+* Déployement dans Grid 5000
+Pour compiler le projet, il faut exécuter :
+
+    ~$ javac -d dest `cat src_files`~
+
+Après avoir réservé les machines souhaitées, il faut lancer le registre RMI sur toutes les machines (avec la commande ~rmiregistry&~~).
+
+Pour lancer la machine maître, exécuter :
+
+    ~$ java LaunchMaster ipMaster~
+
+Vous pouvez obtenir l'adresse IP de la machine sur laquelle vous êtes connecté avec la ~commande hostname -I~.
+
+Pour lancer un esclave, exécuter :
+
+    ~$ java Slave id ipMaster~
+
+Les identifiants des esclaves doivent aller de 0 à nombre_esclave-1.
+Une fois tous les esclaves lancés, vous pouvez lancer le make en lançant :
+
+    ~$ java Client ipMaster~
+
+
+* Expérimentations
+
+** Expérimentation sur 5 noeuds taurus et 1 noeud sagittaire (lyon)
+Commit 2e2b2f97a645ee15f73f6aeed0a18a19ee5bcf2c, 18 janvier
+Makefile : **premier/Makefile**
+
+T_{dis}=209747ms
+
+T_{1} = 805416ms sur un noeud taurus.
+On a donc : A = 3.84
+E = 0.059
+
+** Expérimentation sur 5 noeuds taurus et 1 noeud sagittaire (lyon)
+Commit 2e2b2f97a645ee15f73f6aeed0a18a19ee5bcf2c, 19 janvier
+
+Makefile de **matrix** obtenu avec ~./random_matrix.pl 8 > Makefile~, matrices de 10 par 10.
+
+T_{dis}=4158ms
+
+T_{1} = 43864ms sur un noeud taurus.
+
+On a donc : A = 10.54
+
+E = 0.16
+
+** Expérimentation sur 5 noeuds taurus et 1 noeud sagittaire (lyon)
+Commit 2e2b2f97a645ee15f73f6aeed0a18a19ee5bcf2c, 19 janvier
+
+Makefile de **matrix** obtenu avec ~./random_matrix.pl 16 > Makefile~, matrices de 10 par 10.
+
+T_{dis}=44926ms
+
+A = 10.40
+
+E = 0.16
+
+T_{1}=467280 sur un noeud taurus.
+
+** Expérimentation sur 10 noeuds taurus (lyon)
+
+Makefile : premier/Makefile
+Commit 70e1c650383a0e671b24f76c7c4519c5157c9365, 20 janvier
+
+T_{dis}=118989
+
+A=6.76
+
+E=0.056
+
+T_{1} = 805416ms
+
+** Expérimentation sur 14 noeuds taurus (lyon)
+
+Commit 70e1c650383a0e671b24f76c7c4519c5157c9365, 20 janvier
+
+T_{dis}=90945
+
+A=8.85
+
+E=0.05
+
+T_{1} = 805416ms
+
+* Fabrication des courbes de performances
